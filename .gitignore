@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnail cache files
+._*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+*.swn
+*.log
+
+# Node modules and vendor directories
+node_modules/
+vendor/
+
+# IDE and editor directories
+.vscode/
+.idea/
+*.code-workspace
