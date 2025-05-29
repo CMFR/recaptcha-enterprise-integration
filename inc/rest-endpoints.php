@@ -19,25 +19,40 @@ if ( ! recaptcha_enterprise_check_rest_api() ) {
 
 // Register the REST route
 function recaptcha_enterprise_register_rest_routes() {
-    // Register the verify token route
-    register_rest_route( 'recaptcha-enterprise/v1', '/verify-token/', array(
-        'methods'             => WP_REST_Server::CREATABLE,
-        'callback'            => 'recaptcha_enterprise_verify_token',
-        'permission_callback' => '__return_true',
-        'args'                => array(
-            'token' => array(
-                'required'          => true,
-                'validate_callback' => function( $param ) {
-                    return is_string( $param ) && ! empty( $param );
-                }
-            ),
-            'action' => array(
-                'required'          => true,
-                'validate_callback' => function( $param ) {
-                    return is_string( $param ) && ! empty( $param );
-                }
-            )
-        )
-    ) );
+	// Enterprise verification route
+	register_rest_route( 'recaptcha-enterprise/v1', '/verify-token/', array(
+		'methods'             => WP_REST_Server::CREATABLE,
+		'callback'            => 'recaptcha_enterprise_verify_token',
+		'permission_callback' => '__return_true',
+		'args'                => array(
+			'token' => array(
+				'required'          => true,
+				'validate_callback' => function( $param ) {
+					return is_string( $param ) && ! empty( $param );
+				}
+			),
+			'action' => array(
+				'required'          => true,
+				'validate_callback' => function( $param ) {
+					return is_string( $param ) && ! empty( $param );
+				}
+			)
+		)
+	) );
+
+	// v2 verification route
+	register_rest_route( 'recaptcha-enterprise/v1', '/verify-v2/', array(
+		'methods'             => WP_REST_Server::CREATABLE,
+		'callback'            => 'recaptcha_verify_token_v2',
+		'permission_callback' => '__return_true',
+		'args'                => array(
+			'token' => array(
+				'required'          => true,
+				'validate_callback' => function( $param ) {
+					return is_string( $param ) && ! empty( $param );
+				}
+			)
+		)
+	) );
 }
 add_action( 'rest_api_init', 'recaptcha_enterprise_register_rest_routes' );
