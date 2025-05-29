@@ -42,8 +42,7 @@ function recaptcha_enterprise_settings_page() {
 		$site_key = sanitize_text_field( $_POST['recaptcha_enterprise_site_key'] );
 		$project_id = sanitize_text_field( $_POST['recaptcha_enterprise_project_id'] );
 		$api_key = sanitize_text_field( $_POST['recaptcha_enterprise_api_key'] );
-		$recaptcha_version = in_array( $_POST['cmfr_recaptcha_version'], ['v2', 'enterprise'], true ) ? $_POST['cmfr_recaptcha_version'] : 'enterprise';
-		$secret_key = sanitize_text_field( $_POST['cmfr_recaptcha_secret_key'] ?? '' );
+		$recaptcha_version = in_array( $_POST['cmfr_recaptcha_version'], ['challenge', 'invisible'], true ) ? $_POST['cmfr_recaptcha_version'] : 'enterprise';
 
 		if ( empty( $site_key ) || empty( $project_id ) || empty( $api_key ) ) {
 			add_settings_error('recaptcha_enterprise_settings','settings_error','All fields are required.','error');
@@ -52,12 +51,11 @@ function recaptcha_enterprise_settings_page() {
 			update_option( 'recaptcha_enterprise_project_id', $project_id );
 			update_option( 'recaptcha_enterprise_api_key', $api_key );
 			update_option( 'cmfr_recaptcha_version', $recaptcha_version );
-			update_option( 'recaptcha_enterprise_secret_key', $secret_key );
 			add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
 		}
 	}
 
-	if ( isset( $_POST['submit_v2_test'] ) && isset( $_POST['g-recaptcha-response'] ) ) {
+	if ( isset( $_POST['submit_challenge_test'] ) && isset( $_POST['g-recaptcha-response'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
 		$token = sanitize_text_field( $_POST['g-recaptcha-response'] );
 		$api_key = get_option( 'recaptcha_enterprise_api_key' );
@@ -70,13 +68,13 @@ function recaptcha_enterprise_settings_page() {
 			array('body' => $body,'headers' => array('Content-Type' => 'application/json'),'timeout' => 15)
 		);
 		if ( is_wp_error( $response ) ) {
-			add_settings_error('recaptcha_enterprise_settings','v2_test_error','Error connecting to reCAPTCHA API.','error');
+			add_settings_error('recaptcha_enterprise_settings','challenge_test_error','Error connecting to reCAPTCHA API.','error');
 		} else {
 			$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
 			if ( isset( $response_body['tokenProperties']['valid'] ) && $response_body['tokenProperties']['valid'] === true ) {
-				add_settings_error('recaptcha_enterprise_settings','v2_test_success','reCAPTCHA verified successfully.','updated');
+				add_settings_error('recaptcha_enterprise_settings','challenge_test_success','reCAPTCHA verified successfully.','updated');
 			} else {
-				add_settings_error('recaptcha_enterprise_settings','v2_test_fail','reCAPTCHA verification failed.','error');
+				add_settings_error('recaptcha_enterprise_settings','challenge_test_fail','reCAPTCHA verification failed.','error');
 			}
 		}
 	}
@@ -86,7 +84,6 @@ function recaptcha_enterprise_settings_page() {
 	$project_id = get_option( 'recaptcha_enterprise_project_id', '' );
 	$api_key = get_option( 'recaptcha_enterprise_api_key', '' );
 	$recaptcha_version = get_option( 'cmfr_recaptcha_version', 'enterprise' );
-	$secret_key = get_option( 'recaptcha_enterprise_secret_key', '' );
 ?>
 	<div class="wrap recaptcha-wrap">
 		<h1>reCAPTCHA Enterprise Integration</h1>
@@ -112,28 +109,22 @@ function recaptcha_enterprise_settings_page() {
                 <tr>
                     <th><label>Version</label></th>
                     <td>
-                        <?php $version = get_option( 'cmfr_recaptcha_version', 'enterprise' ); ?>
+                        <?php $version = get_option( 'cmfr_recaptcha_version', 'invisible' ); ?>
                        <select name="cmfr_recaptcha_version" id="cmfr_recaptcha_version">
-                            <option value="enterprise" <?php selected( $version, 'enterprise' ); ?>>Enterprise</option>
-                            <option value="v2" <?php selected( $version, 'v2' ); ?>>v2</option>
+                            <option value="invisible" <?php selected( $version, 'invisible' ); ?>>Invisible</option>
+                            <option value="challenge" <?php selected( $version, 'challenge' ); ?>>Challenge</option>
                         </select>
-                    </td>
-                </tr>
-                <tr id="recaptcha_v2_secret_key_row">
-                    <th scope="row"><label for="cmfr_recaptcha_secret_key">Secret Key</label></th>
-                    <td>
-                        <input type="password" id="cmfr_recaptcha_secret_key" name="cmfr_recaptcha_secret_key" value="<?php echo esc_attr( get_option( 'cmfr_recaptcha_secret_key', '' ) ); ?>" class="regular-text">
                     </td>
                 </tr>
 				<?php if ( $site_key && $project_id && $api_key ) : ?>
                     <tr class="recaptcha-test">
                         <th><label>Integration</label></th>
                         <td>
-                            <?php if ( $recaptcha_version === 'v2' ) : ?>
+                            <?php if ( $recaptcha_version === 'challenge' ) : ?>
                                 <form method="post">
                                     <?php wp_nonce_field( 'recaptcha_enterprise_settings' ); ?>
                                     <div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
-                                    <p><button type="submit" name="submit_v2_test" class="button-secondary">Verify reCAPTCHA</button></p>
+                                    <p><button type="submit" name="submit_challenge_test" class="button-secondary">Verify reCAPTCHA</button></p>
                                 </form>
                                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                             <?php else : ?>
