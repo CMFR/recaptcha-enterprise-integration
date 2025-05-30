@@ -17,33 +17,6 @@ function toggleVisibility() {
     button.textContent = shouldReveal ? 'Hide Secrets' : 'Reveal Secrets';
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-	const versionSelect = document.getElementById('cmfr_recaptcha_version');
-	const secretRow = document.getElementById('recaptcha_v2_secret_key_row');
-
-	function toggleSecretKeyField() {
-		if (!versionSelect || !secretRow) return;
-
-		secretRow.style.display = versionSelect.value === 'v2' ? '' : 'none';
-	}
-
-	toggleSecretKeyField(); // Run on load
-	versionSelect?.addEventListener('change', toggleSecretKeyField);
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-	const versionSelect = document.getElementById('cmfr_recaptcha_version');
-	const secretRow = document.getElementById('recaptcha_v2_secret_key_row');
-
-	function toggleSecretKeyField() {
-		if (!versionSelect || !secretRow) return;
-		secretRow.style.display = versionSelect.value === 'v2' ? '' : 'none';
-	}
-
-	toggleSecretKeyField();
-	versionSelect?.addEventListener('change', toggleSecretKeyField);
-});
-
 // Enterprise button click handler
 function onClick(e, action) {
 	e.preventDefault();
