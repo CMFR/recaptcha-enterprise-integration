@@ -1,3 +1,18 @@
+document.addEventListener('DOMContentLoaded', function () {
+	const notice = document.querySelector('.notice.updated, .notice-success');
+
+	if (notice) {
+		setTimeout(() => {
+			notice.style.transition = 'opacity 0.5s ease-out';
+			notice.style.opacity = '0';
+
+			setTimeout(() => {
+				notice.remove();
+			}, 500);
+		}, 4000); // 4 second delay before fade
+	}
+});
+
 function toggleVisibility() {
     const fieldIds = ['recaptcha_enterprise_project_id', 'recaptcha_enterprise_api_key', 'recaptcha_enterprise_site_key'];
     let shouldReveal = false;

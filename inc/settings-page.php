@@ -59,6 +59,20 @@ function recaptcha_enterprise_settings_page() {
 		}
 	}
 
+    if ( isset( $_POST['delete'] ) ) {
+        delete_option( 'recaptcha_enterprise_site_key' );
+        delete_option( 'recaptcha_enterprise_project_id' );
+        delete_option( 'recaptcha_enterprise_api_key' );
+        delete_option( 'cmfr_recaptcha_version' );
+        add_settings_error( 'recaptcha_enterprise_settings', 'settings_deleted', 'Settings have been deleted.', 'updated' );
+
+        // Clear variables for display
+        $site_key = '';
+        $project_id = '';
+        $api_key = '';
+        $recaptcha_version = 'invisible';
+    }
+
     if ( isset( $_POST['submit_challenge_test'] ) && isset( $_POST['g-recaptcha-response'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
 		$token = sanitize_text_field( $_POST['g-recaptcha-response'] );
@@ -83,7 +97,7 @@ function recaptcha_enterprise_settings_page() {
 		}
 	}
 
-	settings_errors( 'recaptcha_enterprise_settings' );
+	$settings_messages = get_settings_errors( 'recaptcha_enterprise_settings' );
 
 	// Load saved settings
 	$site_key = get_option( 'recaptcha_enterprise_site_key', '' );
@@ -125,9 +139,10 @@ function recaptcha_enterprise_settings_page() {
 				</tr>
 			</table>
 			<p class="submit-button-group">
-				<button type="button" onclick="toggleVisibility()" class="button-secondary">Reveal Secrets</button>
-				<input type="submit" name="submit" class="button-primary" value="Save Settings">
-			</p>
+                <button type="button" onclick="toggleVisibility()" class="button-secondary">Reveal Secrets</button>
+                <input type="submit" name="submit" class="button-primary" value="Save Settings">
+                <input type="submit" name="delete" class="button-primary button-danger" value="Delete Settings" onclick="return confirm('Are you sure you want to delete all saved reCAPTCHA settings?');">
+            </p>
 		</form>
 
         <h2>Test reCAPTCHA Integration</h2>
@@ -149,6 +164,10 @@ function recaptcha_enterprise_settings_page() {
                         <p class="description">Please save a Project ID, API Key, and Site Key to enable testing.</p>
                     <?php endif; ?>
                 </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td class="recaptcha-test-message"></td>
             </tr>
         </table>
 	</div>

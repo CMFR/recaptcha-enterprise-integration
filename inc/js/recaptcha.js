@@ -56,7 +56,7 @@ function showToast(message, type = "info", button = null) {
     notice.innerHTML = `<p>${message}</p>`;
 
     // Append to the admin notice area
-    const noticeArea = document.querySelector(".wrap") || document.body;
+   const noticeArea = document.querySelector("td.recaptcha-test-message") || document.body;
     noticeArea.prepend(notice);
 
     // Auto-remove after 5 seconds and reset button state if provided
