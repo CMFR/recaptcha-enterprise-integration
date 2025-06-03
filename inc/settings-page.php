@@ -108,6 +108,9 @@ function recaptcha_enterprise_settings_page() {
 	?>
 	<div class="wrap recaptcha-wrap">
 		<h1>reCAPTCHA Enterprise Integration</h1>
+
+        <?php settings_errors( 'recaptcha_enterprise_settings' ); ?>
+        
 		<p class="instructions">
 			To use this plugin, you'll need to set up reCAPTCHA Enterprise in the Google Cloud Console. 
 			Visit the <a href="https://cloud.google.com/recaptcha-enterprise/docs" target="_blank" rel="noopener noreferrer">Google reCAPTCHA Enterprise documentation</a> for instructions.
