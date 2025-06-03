@@ -47,16 +47,12 @@ function recaptcha_enterprise_settings_page() {
 		$api_key = sanitize_text_field( $_POST['recaptcha_enterprise_api_key'] );
 		$recaptcha_version = in_array( $_POST['cmfr_recaptcha_version'], ['challenge', 'invisible'], true ) ? $_POST['cmfr_recaptcha_version'] : 'invisible';
 
-		if ( empty( $site_key ) || empty( $project_id ) || empty( $api_key ) ) {
-			add_settings_error('recaptcha_enterprise_settings','settings_error','All fields are required.','error');
-		} else {
-			update_option( 'recaptcha_enterprise_site_key', $site_key );
-			update_option( 'recaptcha_enterprise_project_id', $project_id );
-			update_option( 'recaptcha_enterprise_api_key', $api_key );
-			update_option( 'cmfr_recaptcha_version', $recaptcha_version );
-			$updated = true;
-			add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
-		}
+        update_option( 'recaptcha_enterprise_site_key', $site_key );
+        update_option( 'recaptcha_enterprise_project_id', $project_id );
+        update_option( 'recaptcha_enterprise_api_key', $api_key );
+        update_option( 'cmfr_recaptcha_version', $recaptcha_version );
+        $updated = true;
+        add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
 	}
 
     if ( isset( $_POST['delete'] ) ) {
@@ -110,7 +106,7 @@ function recaptcha_enterprise_settings_page() {
 		<h1>reCAPTCHA Enterprise Integration</h1>
 
         <?php settings_errors( 'recaptcha_enterprise_settings' ); ?>
-        
+
 		<p class="instructions">
 			To use this plugin, you'll need to set up reCAPTCHA Enterprise in the Google Cloud Console. 
 			Visit the <a href="https://cloud.google.com/recaptcha-enterprise/docs" target="_blank" rel="noopener noreferrer">Google reCAPTCHA Enterprise documentation</a> for instructions.
@@ -121,15 +117,15 @@ function recaptcha_enterprise_settings_page() {
 			<table class="form-table">
 				<tr>
 					<th><label for="recaptcha_enterprise_project_id">Project ID</label></th>
-					<td><input type="password" name="recaptcha_enterprise_project_id" id="recaptcha_enterprise_project_id" value="<?php echo esc_attr( $project_id ); ?>" required></td>
+					<td><input type="password" name="recaptcha_enterprise_project_id" id="recaptcha_enterprise_project_id" value="<?php echo esc_attr( $project_id ); ?>"></td>
 				</tr>
 				<tr>
 					<th><label for="recaptcha_enterprise_api_key">API Key</label></th>
-					<td><input type="password" name="recaptcha_enterprise_api_key" id="recaptcha_enterprise_api_key" value="<?php echo esc_attr( $api_key ); ?>" required></td>
+					<td><input type="password" name="recaptcha_enterprise_api_key" id="recaptcha_enterprise_api_key" value="<?php echo esc_attr( $api_key ); ?>"</td>
 				</tr>
 				<tr>
 					<th><label for="recaptcha_enterprise_site_key">Site Key</label></th>
-					<td><input type="password" name="recaptcha_enterprise_site_key" id="recaptcha_enterprise_site_key" value="<?php echo esc_attr( $site_key ); ?>" required></td>
+					<td><input type="password" name="recaptcha_enterprise_site_key" id="recaptcha_enterprise_site_key" value="<?php echo esc_attr( $site_key ); ?>"></td>
 				</tr>
 				<tr>
 					<th><label>Version</label></th>

@@ -32,20 +32,22 @@ function toggleVisibility() {
     button.textContent = shouldReveal ? 'Hide Secrets' : 'Reveal Secrets';
 }
 
-// Enterprise button click handler
 function onClick(e, action) {
 	e.preventDefault();
 
-	if (typeof grecaptcha === 'undefined' || !grecaptcha.enterprise) {
-		alert('reCAPTCHA not loaded.');
+	if (typeof grecaptcha === 'undefined') {
+		alert('Google reCAPTCHA script may not have fully loaded. Please wait a moment, then reload the page and try again.');
+		return;
+	}
+
+	if (!grecaptcha.enterprise) {
+		alert('reCAPTCHA Enterprise is not available yet. The script may still be loading. Please wait a moment, then reload the page and try again.');
 		return;
 	}
 
 	grecaptcha.enterprise.ready(function () {
 		grecaptcha.enterprise.execute(recaptchaData.site_key, { action: action }).then(function (token) {
 			console.log('Enterprise token:', token);
-
-			// Optional: Send to your REST endpoint here
 			alert('Enterprise token generated. Check console for details.');
 		});
 	});
