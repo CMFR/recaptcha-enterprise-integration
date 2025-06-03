@@ -15,11 +15,19 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 		true
 	);
 
-	// Load reCAPTCHA and frontend integration scripts only if the site key exists
 	$site_key = get_option('recaptcha_enterprise_site_key', '');
+	$recaptcha_version = get_option('cmfr_recaptcha_version', 'invisible');
 
+	// Hide reCAPTCHA badge if version is invisible
+	if ($recaptcha_version === 'invisible') {
+		wp_add_inline_style(
+			'recaptcha-enterprise-admin-styles',
+			'.grecaptcha-badge { display: none !important; }'
+		);
+	}
+
+	// Load reCAPTCHA and frontend integration scripts only if site key is set
 	if ($site_key) {
-		// Enqueue Google reCAPTCHA Enterprise loader script
 		wp_enqueue_script(
 			'recaptcha-enterprise',
 			'https://www.google.com/recaptcha/enterprise.js?render=' . esc_attr($site_key),
@@ -28,7 +36,6 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 			true
 		);
 
-		// Enqueue plugin's frontend logic script (runs reCAPTCHA and submits token)
 		wp_enqueue_script(
 			'recaptcha-frontend',
 			RECAPTCHA_ENTERPRISE_URL . 'inc/js/recaptcha.js',
@@ -37,11 +44,10 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 			true
 		);
 
-		// Pass dynamic values to the frontend script
 		wp_localize_script('recaptcha-frontend', 'recaptchaData', array(
-			'ajax_url'  => admin_url('admin-ajax.php'),
-			'rest_url'  => rest_url('recaptcha-enterprise/v1/'),
-			'site_key'  => $site_key
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'rest_url' => rest_url('recaptcha-enterprise/v1/'),
+			'site_key' => $site_key
 		));
 	}
 }
