@@ -3,11 +3,9 @@
  * Plugin Name: reCAPTCHA Enterprise Integration
  * Plugin URI: https://github.com/CMFR/recaptcha-enterprise-integration
  * Description: Easily integrate Google reCAPTCHA Enterprise with WordPress.
- * Version: 1.1.0
- * Author: Clearinghouse for Military Family Readiness
+ * Version: 1.1.1
+ * Author: Clearinghouse for Military Family Readiness (JLG)
  * Author URI: https://militaryfamilies.psu.edu
- * Author: Jaemie Gyurik
- * Author URI: https://github.com/jaemie
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: recaptcha-enterprise-integration

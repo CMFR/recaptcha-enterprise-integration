@@ -2,6 +2,12 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.1.1] - 2025-06-04
+
+### Fixed
+
+- Unexpected output errors during plugin activation due to stray whitespace
+
 ## [1.1.0] – 2025-06-03
 
 ### Added

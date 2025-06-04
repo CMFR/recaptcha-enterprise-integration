@@ -1,6 +1,4 @@
-
 <?php
-
 // Ensure this file is not accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
