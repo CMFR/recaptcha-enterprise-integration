@@ -2,6 +2,10 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.1.4] – 2025-10-31
+- Removed old `inc/updater.php` file left over from initial setup  
+- No functional changes beyond cleanup and housekeeping
+
 ## [1.1.3] – 2025-10-31
 - Test release for confirming GitHub-based auto-updates
 
