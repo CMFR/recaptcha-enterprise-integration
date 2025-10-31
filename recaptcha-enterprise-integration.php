@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: reCAPTCHA Enterprise Integration
  * Plugin URI: https://github.com/CMFR/recaptcha-enterprise-integration
@@ -11,17 +12,18 @@
  * Text Domain: recaptcha-enterprise-integration
  */
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+// Exit if accessed directly
+if (! defined('ABSPATH')) {
 	exit;
 }
 
-// Plugin constants.
-define( 'RECAPTCHA_ENTERPRISE_PATH', plugin_dir_path( __FILE__ ) );
-define( 'RECAPTCHA_ENTERPRISE_URL', plugin_dir_url( __FILE__ ) );
+// Plugin constants
+define('RECAPTCHA_ENTERPRISE_PATH', plugin_dir_path(__FILE__));
+define('RECAPTCHA_ENTERPRISE_URL', plugin_dir_url(__FILE__));
 
-// Include components.
+// Include components
 require_once RECAPTCHA_ENTERPRISE_PATH . 'inc/settings-page.php';
 require_once RECAPTCHA_ENTERPRISE_PATH . 'inc/script-loader.php';
 require_once RECAPTCHA_ENTERPRISE_PATH . 'inc/rest-endpoints.php';
 require_once RECAPTCHA_ENTERPRISE_PATH . 'inc/token-verification.php';
+require_once RECAPTCHA_ENTERPRISE_PATH . 'inc/updater.php';
