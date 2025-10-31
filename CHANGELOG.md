@@ -2,6 +2,9 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.1.3] – 2025-10-31
+- Test release for confirming GitHub-based auto-updates
+
 ## [1.1.2] – 2025-10-31
 
 - Added GitHub-based auto-updater
