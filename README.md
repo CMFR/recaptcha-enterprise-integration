@@ -5,7 +5,7 @@
 **Requires at least:** 6.0  
 **Tested up to:** 6.8  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.1.1  
+**Stable tag:** 1.1.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,14 +94,6 @@ Yes, the API Key is securely stored in the WordPress database, but you should st
 ## License
 
 This plugin is licensed under the GNU General Public License v2.0 or later.
-
----
-
-## Upgrade Notice
-
-### 1.1.0
-
-Adds support for challenge-based reCAPTCHA token verification and improves error handling.
 
 ---
 

@@ -2,6 +2,14 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.1.2] – 2025-10-31
+
+- Added GitHub-based auto-updater
+- Configured public repo integration
+- Enabled release asset support for easier distribution  
+- Cleaned up plugin admin UI and removed manual update link  
+- Verified local updater integration
+
 ## [1.1.1] - 2025-06-04
 
 ### Fixed
