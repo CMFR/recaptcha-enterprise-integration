@@ -17,7 +17,7 @@
 
 # Node modules and vendor directories
 node_modules/
-vendor/
+/vendor/
 
 # IDE and editor directories
 .vscode/

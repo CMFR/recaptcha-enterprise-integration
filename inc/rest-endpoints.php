@@ -18,7 +18,8 @@ function recaptcha_enterprise_register_rest_routes() {
 	register_rest_route( 'recaptcha-enterprise/v1', '/verify-token/', array(
 		'methods'             => WP_REST_Server::CREATABLE,
 		'callback'            => 'recaptcha_enterprise_verify_token',
-		'permission_callback' => '__return_true',
+		// Only the settings page test uses this; each call is a billed assessment
+		'permission_callback' => fn() => current_user_can( 'manage_options' ),
 		'args'                => array(
 			'token' => array(
 				'required'          => true,

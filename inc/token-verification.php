@@ -24,7 +24,7 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 	] );
 
 	$response = wp_remote_post(
-		'https://recaptchaenterprise.googleapis.com/v1/projects/' . esc_attr( $project_id ) . '/assessments?key=' . esc_attr( $api_key ),
+		'https://recaptchaenterprise.googleapis.com/v1/projects/' . rawurlencode( $project_id ) . '/assessments?key=' . rawurlencode( $api_key ),
 		[
 			'body'    => $assessment_request,
 			'headers' => [
@@ -55,6 +55,5 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 	return new WP_REST_Response( [
 		'success' => false,
 		'error'   => $response_body['error']['message'] ?? 'Token validation failed',
-		'details' => $response_body,
 	], 400 );
 }

@@ -13,7 +13,7 @@ function recaptcha_enterprise_enqueue_admin_styles($hook) {
 		'recaptcha-enterprise-admin-styles',
 		RECAPTCHA_ENTERPRISE_URL . 'inc/css/admin-styles.css',
 		array(),
-		null
+		filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/css/admin-styles.css')
 	);
 }
 add_action('admin_enqueue_scripts', 'recaptcha_enterprise_enqueue_admin_styles');
@@ -36,8 +36,6 @@ function recaptcha_enterprise_settings_page() {
 		return;
 	}
 
-	$updated = false;
-
 	if ( isset( $_POST['submit'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
 		$site_key = sanitize_text_field( $_POST['recaptcha_enterprise_site_key'] );
@@ -49,11 +47,11 @@ function recaptcha_enterprise_settings_page() {
         update_option( 'recaptcha_enterprise_project_id', $project_id );
         update_option( 'recaptcha_enterprise_api_key', $api_key );
         update_option( 'cmfr_recaptcha_version', $recaptcha_version );
-        $updated = true;
         add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
 	}
 
     if ( isset( $_POST['delete'] ) ) {
+        check_admin_referer( 'recaptcha_enterprise_settings' );
         delete_option( 'recaptcha_enterprise_site_key' );
         delete_option( 'recaptcha_enterprise_project_id' );
         delete_option( 'recaptcha_enterprise_api_key' );
@@ -76,7 +74,7 @@ function recaptcha_enterprise_settings_page() {
 
 		$body = json_encode(array('event' => array('token' => $token, 'expectedAction' => 'login', 'siteKey' => $site_key)));
 		$response = wp_remote_post(
-			"https://recaptchaenterprise.googleapis.com/v1/projects/$project_id/assessments?key=$api_key",
+			'https://recaptchaenterprise.googleapis.com/v1/projects/' . rawurlencode( $project_id ) . '/assessments?key=' . rawurlencode( $api_key ),
 			array('body' => $body,'headers' => array('Content-Type' => 'application/json'),'timeout' => 15)
 		);
 		if ( is_wp_error( $response ) ) {
@@ -90,8 +88,6 @@ function recaptcha_enterprise_settings_page() {
 			}
 		}
 	}
-
-	$settings_messages = get_settings_errors( 'recaptcha_enterprise_settings' );
 
 	// Load saved settings
 	$site_key = get_option( 'recaptcha_enterprise_site_key', '' );
@@ -119,7 +115,7 @@ function recaptcha_enterprise_settings_page() {
 				</tr>
 				<tr>
 					<th><label for="recaptcha_enterprise_api_key">API Key</label></th>
-					<td><input type="password" name="recaptcha_enterprise_api_key" id="recaptcha_enterprise_api_key" value="<?php echo esc_attr( $api_key ); ?>"</td>
+					<td><input type="password" name="recaptcha_enterprise_api_key" id="recaptcha_enterprise_api_key" value="<?php echo esc_attr( $api_key ); ?>"></td>
 				</tr>
 				<tr>
 					<th><label for="recaptcha_enterprise_site_key">Site Key</label></th>
@@ -152,8 +148,8 @@ function recaptcha_enterprise_settings_page() {
                             <form method="post">
                                 <?php wp_nonce_field( 'recaptcha_enterprise_settings' ); ?>
                                 <div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
+                                <p><input type="submit" name="submit_challenge_test" class="button-secondary" value="Test reCAPTCHA"></p>
                             </form>
-                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                         <?php elseif ( $recaptcha_version === 'invisible' ) : ?>
                             <button id="recaptcha-test-button" class="button-secondary" onclick="onClick(event, 'login')">Test reCAPTCHA</button>
                         <?php endif; ?>

@@ -2,6 +2,16 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.1.5] – 2026-09-28
+- Fixed critical error when checking for updates: update checker `vendor/` files (Parsedown) were missing from releases
+- Restricted the token verification REST endpoint to admins and stopped returning Google's full response on failure
+- Added nonce check to Delete Settings
+- Fixed Challenge mode test: loads the Enterprise script and adds a submit button
+- Fixed unclosed API Key input on the settings page
+- Removed duplicate `onClick()` and unused variables; test failures now show the REST error message
+- URL-encoded project ID and API key in assessment requests
+- Versioned plugin CSS/JS with `filemtime()` for cache busting
+
 ## [1.1.4] – 2025-10-31
 - Removed old `inc/updater.php` file left over from initial setup  
 - No functional changes beyond cleanup and housekeeping

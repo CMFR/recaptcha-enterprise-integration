@@ -31,7 +31,8 @@ async function verifyToken(token, action) {
         const response = await fetch(recaptchaData.rest_url + "verify-token/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-WP-Nonce": recaptchaData.nonce
             },
             body: JSON.stringify({ token, action })
         });
@@ -41,7 +42,7 @@ async function verifyToken(token, action) {
         if (result.success) {
             showToast("✅ Token validated successfully!", "success");
         } else {
-            showToast("❌ Token validation failed: " + result.error, "error");
+            showToast("❌ Token validation failed: " + (result.error ?? result.message), "error");
         }
 
     } catch (error) {

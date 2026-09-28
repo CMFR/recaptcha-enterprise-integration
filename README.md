@@ -1,11 +1,11 @@
 # reCAPTCHA Enterprise Integration
 
-**Contributors:** Jaemie Gyurik, Clearinghouse for Military Readiness at Penn State  
+**Contributors:** Jaemie Gyurik, Clearinghouse for Military Family Readiness at Penn State  
 **Tags:** reCAPTCHA, enterprise, security, spam protection, WordPress  
 **Requires at least:** 6.0  
-**Tested up to:** 6.8.3  
+**Tested up to:** 7.1.2  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.1.4
+**Stable tag:** 1.1.5
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,11 +20,10 @@ The **reCAPTCHA Enterprise Integration** plugin allows you to add Google reCAPTC
 ### Features
 
 - Supports Google reCAPTCHA Enterprise
+- Invisible (score-based) and Challenge (checkbox) modes
 - Secure token verification via REST API
 - Admin settings page for easy configuration
-- Customizable action labels
-- Error logging for better troubleshooting (with optional debug mode)
-- Simple JavaScript hooks for testing
+- Built-in test for each mode on the settings page
 
 ---
 
@@ -32,7 +31,7 @@ The **reCAPTCHA Enterprise Integration** plugin allows you to add Google reCAPTC
 
 1. Upload the `recaptcha-enterprise-integration` directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Navigate to **Settings** → **reCAPTCHA Enterprise** to configure the plugin.
+3. Navigate to **Settings** → **reCAPTCHA** to configure the plugin.
 
 ---
 
@@ -43,6 +42,7 @@ To use this plugin, you'll need the following:
 - **Project ID**: Your Google Cloud project ID.
 - **API Key**: A valid API key for the reCAPTCHA Enterprise API.
 - **Site Key**: The site key associated with your project.
+- **Version**: **Invisible** for a score-based key, or **Challenge** for a checkbox key. The site key must match the version you pick.
 
 Refer to the [Google reCAPTCHA Enterprise Documentation](https://cloud.google.com/recaptcha-enterprise/docs) for detailed setup instructions.
 
@@ -78,7 +78,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for full release history.
 
 1. In the **Google Cloud Console**, navigate to **reCAPTCHA Enterprise**.
 2. Click **+ CREATE KEY**.
-3. Choose the appropriate reCAPTCHA type (e.g., reCAPTCHA v3).
+3. Choose a score-based key for Invisible mode or a checkbox key for Challenge mode.
 4. Complete the setup and copy the generated Site Key.
 
 ### Can I use this plugin with reCAPTCHA v2 or v3?
