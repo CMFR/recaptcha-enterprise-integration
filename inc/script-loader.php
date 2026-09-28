@@ -28,9 +28,15 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 
 	// Load reCAPTCHA and frontend integration scripts only if site key is set
 	if ($site_key) {
+		// Challenge keys auto-render .g-recaptcha; render= is for score (invisible) keys only
+		$script_url = 'https://www.google.com/recaptcha/enterprise.js';
+		if ($recaptcha_version === 'invisible') {
+			$script_url .= '?render=' . rawurlencode($site_key);
+		}
+
 		wp_enqueue_script(
 			'recaptcha-enterprise',
-			'https://www.google.com/recaptcha/enterprise.js?render=' . esc_attr($site_key),
+			$script_url,
 			array(),
 			null,
 			true

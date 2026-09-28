@@ -153,8 +153,8 @@ function recaptcha_enterprise_settings_page() {
                             <form method="post">
                                 <?php wp_nonce_field( 'recaptcha_enterprise_settings' ); ?>
                                 <div class="g-recaptcha" data-sitekey="<?php echo esc_attr( $site_key ); ?>"></div>
+                                <p><input type="submit" name="submit_challenge_test" class="button-secondary" value="Test reCAPTCHA"></p>
                             </form>
-                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                         <?php elseif ( $recaptcha_version === 'invisible' ) : ?>
                             <button id="recaptcha-test-button" class="button-secondary" onclick="onClick(event, 'login')">Test reCAPTCHA</button>
                         <?php endif; ?>
