@@ -36,8 +36,6 @@ function recaptcha_enterprise_settings_page() {
 		return;
 	}
 
-	$updated = false;
-
 	if ( isset( $_POST['submit'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
 		$site_key = sanitize_text_field( $_POST['recaptcha_enterprise_site_key'] );
@@ -49,7 +47,6 @@ function recaptcha_enterprise_settings_page() {
         update_option( 'recaptcha_enterprise_project_id', $project_id );
         update_option( 'recaptcha_enterprise_api_key', $api_key );
         update_option( 'cmfr_recaptcha_version', $recaptcha_version );
-        $updated = true;
         add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
 	}
 
@@ -91,8 +88,6 @@ function recaptcha_enterprise_settings_page() {
 			}
 		}
 	}
-
-	$settings_messages = get_settings_errors( 'recaptcha_enterprise_settings' );
 
 	// Load saved settings
 	$site_key = get_option( 'recaptcha_enterprise_site_key', '' );

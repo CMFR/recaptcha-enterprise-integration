@@ -42,7 +42,7 @@ async function verifyToken(token, action) {
         if (result.success) {
             showToast("✅ Token validated successfully!", "success");
         } else {
-            showToast("❌ Token validation failed: " + result.error, "error");
+            showToast("❌ Token validation failed: " + (result.error ?? result.message), "error");
         }
 
     } catch (error) {
