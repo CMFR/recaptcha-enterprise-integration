@@ -54,6 +54,7 @@ function recaptcha_enterprise_settings_page() {
 	}
 
     if ( isset( $_POST['delete'] ) ) {
+        check_admin_referer( 'recaptcha_enterprise_settings' );
         delete_option( 'recaptcha_enterprise_site_key' );
         delete_option( 'recaptcha_enterprise_project_id' );
         delete_option( 'recaptcha_enterprise_api_key' );
