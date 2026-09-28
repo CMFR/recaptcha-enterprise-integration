@@ -74,7 +74,7 @@ function recaptcha_enterprise_settings_page() {
 
 		$body = json_encode(array('event' => array('token' => $token, 'expectedAction' => 'login', 'siteKey' => $site_key)));
 		$response = wp_remote_post(
-			"https://recaptchaenterprise.googleapis.com/v1/projects/$project_id/assessments?key=$api_key",
+			'https://recaptchaenterprise.googleapis.com/v1/projects/' . rawurlencode( $project_id ) . '/assessments?key=' . rawurlencode( $api_key ),
 			array('body' => $body,'headers' => array('Content-Type' => 'application/json'),'timeout' => 15)
 		);
 		if ( is_wp_error( $response ) ) {
