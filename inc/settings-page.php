@@ -120,7 +120,7 @@ function recaptcha_enterprise_settings_page() {
 				</tr>
 				<tr>
 					<th><label for="recaptcha_enterprise_api_key">API Key</label></th>
-					<td><input type="password" name="recaptcha_enterprise_api_key" id="recaptcha_enterprise_api_key" value="<?php echo esc_attr( $api_key ); ?>"</td>
+					<td><input type="password" name="recaptcha_enterprise_api_key" id="recaptcha_enterprise_api_key" value="<?php echo esc_attr( $api_key ); ?>"></td>
 				</tr>
 				<tr>
 					<th><label for="recaptcha_enterprise_site_key">Site Key</label></th>
