@@ -47,6 +47,7 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 		wp_localize_script('recaptcha-frontend', 'recaptchaData', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'rest_url' => rest_url('recaptcha-enterprise/v1/'),
+			'nonce'    => wp_create_nonce('wp_rest'),
 			'site_key' => $site_key
 		));
 	}

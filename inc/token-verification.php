@@ -55,6 +55,5 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 	return new WP_REST_Response( [
 		'success' => false,
 		'error'   => $response_body['error']['message'] ?? 'Token validation failed',
-		'details' => $response_body,
 	], 400 );
 }

@@ -31,7 +31,8 @@ async function verifyToken(token, action) {
         const response = await fetch(recaptchaData.rest_url + "verify-token/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-WP-Nonce": recaptchaData.nonce
             },
             body: JSON.stringify({ token, action })
         });
