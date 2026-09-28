@@ -13,7 +13,7 @@ function recaptcha_enterprise_enqueue_admin_styles($hook) {
 		'recaptcha-enterprise-admin-styles',
 		RECAPTCHA_ENTERPRISE_URL . 'inc/css/admin-styles.css',
 		array(),
-		null
+		filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/css/admin-styles.css')
 	);
 }
 add_action('admin_enqueue_scripts', 'recaptcha_enterprise_enqueue_admin_styles');

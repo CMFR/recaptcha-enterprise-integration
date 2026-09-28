@@ -11,7 +11,7 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 		'recaptcha-enterprise-admin-scripts',
 		RECAPTCHA_ENTERPRISE_URL . 'inc/js/admin-scripts.js',
 		array(),
-		null,
+		filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/admin-scripts.js'),
 		true
 	);
 
@@ -46,7 +46,7 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 			'recaptcha-frontend',
 			RECAPTCHA_ENTERPRISE_URL . 'inc/js/recaptcha.js',
 			array('recaptcha-enterprise'),
-			null,
+			filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/recaptcha.js'),
 			true
 		);
 
