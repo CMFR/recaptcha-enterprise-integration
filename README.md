@@ -23,7 +23,9 @@ The **Integration for reCAPTCHA Enterprise** plugin allows you to add Google reC
 
 - Supports Google reCAPTCHA Enterprise
 - Invisible (score-based) and Challenge (checkbox) modes
-- Secure token verification via REST API
+- Protects Contact Form 7 and User Registration forms with no changes to the forms
+- Server-side token verification with an adjustable score threshold
+- Badge options: show the Google badge, hide it and add a message below each form, or hide it and add your own message
 - Admin settings page for easy configuration
 - Built-in test for each mode on the settings page
 
@@ -45,6 +47,8 @@ To use this plugin, you'll need the following:
 - **API Key**: A valid API key for the reCAPTCHA Enterprise API.
 - **Site Key**: The site key associated with your project.
 - **Version**: **Invisible** for a score-based key, or **Challenge** for a checkbox key. The site key must match the version you pick.
+- **Score Threshold** (Invisible only): Submissions scoring below this are blocked. Defaults to 0.5. Lower it if real visitors are being blocked.
+- **Disclosure** (Invisible only): Hide the badge and add a message below forms (default), show the Google badge, or hide the badge and add your own message. Google allows hiding the badge only if the site says it's protected by reCAPTCHA.
 
 Refer to the [Google reCAPTCHA Enterprise Documentation](https://cloud.google.com/recaptcha-enterprise/docs) for detailed setup instructions.
 
