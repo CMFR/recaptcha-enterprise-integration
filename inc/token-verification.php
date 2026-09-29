@@ -11,7 +11,7 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 	if ( ! $project_id || ! $site_key || ! $api_key ) {
 		return new WP_REST_Response( [
 			'success' => false,
-			'error'   => 'Missing project ID, site key, or API key',
+			'error'   => __( 'Missing project ID, site key, or API key', 'recaptcha-enterprise-integration' ),
 		], 400 );
 	}
 
@@ -37,7 +37,7 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 	if ( is_wp_error( $response ) ) {
 		return new WP_REST_Response( [
 			'success' => false,
-			'error'   => 'Error verifying reCAPTCHA token',
+			'error'   => __( 'Error verifying reCAPTCHA token', 'recaptcha-enterprise-integration' ),
 		], 500 );
 	}
 
@@ -46,7 +46,7 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 	if ( isset( $response_body['tokenProperties']['valid'] ) && $response_body['tokenProperties']['valid'] === true ) {
 		return new WP_REST_Response( [
 			'success' => true,
-			'message' => 'Token validated successfully',
+			'message' => __( 'Token validated successfully', 'recaptcha-enterprise-integration' ),
 			'score'   => $response_body['riskAnalysis']['score'] ?? null,
 			'reasons' => $response_body['riskAnalysis']['reasons'] ?? [],
 		], 200 );
@@ -54,7 +54,7 @@ function recaptcha_enterprise_verify_token( WP_REST_Request $request ) {
 
 	return new WP_REST_Response( [
 		'success' => false,
-		'error'   => $response_body['error']['message'] ?? 'Token validation failed',
+		'error'   => $response_body['error']['message'] ?? __( 'Token validation failed', 'recaptcha-enterprise-integration' ),
 	], 400 );
 }
 
@@ -138,7 +138,7 @@ add_action( 'user_registration_before_register_user_action', function () {
 
 	if ( ! recaptcha_enterprise_passes( $token, 'register' ) ) {
 		wp_send_json_error( [
-			'message' => 'reCAPTCHA verification failed. Please try again.',
+			'message' => __( 'reCAPTCHA verification failed. Please try again.', 'recaptcha-enterprise-integration' ),
 		] );
 	}
 } );

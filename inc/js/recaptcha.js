@@ -4,14 +4,14 @@ function onClick(e, action) {
 
     // Check if recaptchaData is defined
     if (typeof recaptchaData === 'undefined') {
-        showToast("reCAPTCHA data is not loaded.", "error");
+        showToast(wp.i18n.__("reCAPTCHA data is not loaded.", "recaptcha-enterprise-integration"), "error");
         return;
     }
 
     const siteKey = recaptchaData.site_key;
 
     if (!siteKey || !action) {
-        showToast("Missing site key or action.", "error");
+        showToast(wp.i18n.__("Missing site key or action.", "recaptcha-enterprise-integration"), "error");
         return;
     }
 
@@ -20,7 +20,8 @@ function onClick(e, action) {
             const token = await grecaptcha.enterprise.execute(siteKey, { action });
             verifyToken(token, action);
         } catch (error) {
-            showToast("Error executing reCAPTCHA: " + error.message, "error");
+            // translators: %s: error message
+            showToast(wp.i18n.sprintf(wp.i18n.__("Error executing reCAPTCHA: %s", "recaptcha-enterprise-integration"), error.message), "error");
         }
     });
 }
@@ -40,34 +41,35 @@ async function verifyToken(token, action) {
         const result = await response.json();
 
         if (result.success) {
-            showToast("✅ Token validated successfully!", "success");
+            showToast("✅ " + wp.i18n.__("Token validated successfully!", "recaptcha-enterprise-integration"), "success");
         } else {
-            showToast("❌ Token validation failed: " + (result.error ?? result.message), "error");
+            // translators: %s: error message
+            showToast("❌ " + wp.i18n.sprintf(wp.i18n.__("Token validation failed: %s", "recaptcha-enterprise-integration"), result.error ?? result.message), "error");
         }
 
     } catch (error) {
-        showToast("Error verifying token: " + error.message, "error");
+        // translators: %s: error message
+        showToast(wp.i18n.sprintf(wp.i18n.__("Error verifying token: %s", "recaptcha-enterprise-integration"), error.message), "error");
     }
 }
 
-// Toast Notification with Button Reset
-function showToast(message, type = "info", button = null) {
+// Test result notice; stays until dismissed or replaced by the next test
+function showToast(message, type = "info") {
     const notice = document.createElement("div");
     notice.className = `notice notice-${type} is-dismissible`;
     const text = document.createElement("p");
     text.textContent = message;
-    notice.append(text);
 
-    // Append to the admin notice area
-   const noticeArea = document.querySelector("td.recaptcha-test-message") || document.body;
-    noticeArea.prepend(notice);
+    // Same markup as core's dismissible notices so it picks up the admin styles
+    const dismiss = document.createElement("button");
+    dismiss.type = "button";
+    dismiss.className = "notice-dismiss";
+    const label = document.createElement("span");
+    label.className = "screen-reader-text";
+    label.textContent = wp.i18n.__("Dismiss this notice.", "recaptcha-enterprise-integration");
+    dismiss.append(label);
+    dismiss.addEventListener("click", () => notice.remove());
 
-    // Auto-remove after 5 seconds and reset button state if provided
-    setTimeout(() => {
-        notice.remove();
-        if (button) {
-            button.disabled = false;
-            button.textContent = "Test reCAPTCHA";
-        }
-    }, 5000);
+    notice.append(text, dismiss);
+    document.querySelector("td.recaptcha-test-message").replaceChildren(notice);
 }

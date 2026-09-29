@@ -1,16 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-	const notice = document.querySelector('.notice.updated, .notice-success');
-
-	if (notice) {
-		setTimeout(() => {
-			notice.style.transition = 'opacity 0.5s ease-out';
-			notice.style.opacity = '0';
-
-			setTimeout(() => {
-				notice.remove();
-			}, 500);
-		}, 4000); // 4 second delay before fade
-	}
+	// Score threshold and badge settings don't apply to Challenge keys
+	const version = document.getElementById('cmfr_recaptcha_version');
+	version.addEventListener('change', () => {
+		document.querySelectorAll('.recaptcha-invisible-only').forEach((row) => {
+			row.hidden = version.value === 'challenge';
+		});
+	});
 });
 
 function toggleVisibility() {
@@ -29,5 +24,5 @@ function toggleVisibility() {
 
     // Update button text
     const button = document.querySelector('button[onclick="toggleVisibility()"]');
-    button.textContent = shouldReveal ? 'Hide Secrets' : 'Reveal Secrets';
+    button.textContent = shouldReveal ? wp.i18n.__('Hide Secrets', 'recaptcha-enterprise-integration') : wp.i18n.__('Reveal Secrets', 'recaptcha-enterprise-integration');
 }

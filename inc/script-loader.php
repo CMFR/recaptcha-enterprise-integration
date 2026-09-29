@@ -10,10 +10,11 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 	wp_enqueue_script(
 		'recaptcha-enterprise-admin-scripts',
 		RECAPTCHA_ENTERPRISE_URL . 'inc/js/admin-scripts.js',
-		array(),
+		array('wp-i18n'),
 		filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/admin-scripts.js'),
 		true
 	);
+	wp_set_script_translations('recaptcha-enterprise-admin-scripts', 'recaptcha-enterprise-integration');
 
 	$site_key = get_option('recaptcha_enterprise_site_key', '');
 	$recaptcha_version = get_option('cmfr_recaptcha_version', 'invisible');
@@ -22,7 +23,7 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 	if ($recaptcha_version === 'invisible') {
 		wp_add_inline_style(
 			'recaptcha-enterprise-admin-styles',
-			'.grecaptcha-badge { display: none !important; }'
+			'.grecaptcha-badge { visibility: hidden !important; }'
 		);
 	}
 
@@ -45,10 +46,11 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 		wp_enqueue_script(
 			'recaptcha-frontend',
 			RECAPTCHA_ENTERPRISE_URL . 'inc/js/recaptcha.js',
-			array('recaptcha-enterprise'),
+			array('recaptcha-enterprise', 'wp-i18n'),
 			filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/recaptcha.js'),
 			true
 		);
+		wp_set_script_translations('recaptcha-frontend', 'recaptcha-enterprise-integration');
 
 		wp_localize_script('recaptcha-frontend', 'recaptchaData', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
@@ -88,9 +90,28 @@ function recaptcha_enterprise_enqueue_frontend_scripts() {
 		true
 	);
 
+	// Challenge mode shows Google branding in the widget, so the badge setting only applies to Invisible
+	$disclosure = $recaptcha_version === 'invisible' ? get_option('recaptcha_enterprise_disclosure', 'form') : 'badge';
+
 	wp_localize_script('recaptcha-enterprise-frontend', 'recaptchaFrontend', array(
-		'site_key' => $site_key,
-		'version'  => $recaptcha_version
+		'site_key'   => $site_key,
+		'version'    => $recaptcha_version,
+		'disclosure' => $disclosure !== 'form' ? '' : sprintf(
+			/* translators: 1: Google Privacy Policy link, 2: Google Terms of Service link */
+			esc_html__('This site is protected by reCAPTCHA and the Google %1$s and %2$s apply.', 'recaptcha-enterprise-integration'),
+			'<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">' . esc_html__('Privacy Policy', 'recaptcha-enterprise-integration') . '</a>',
+			'<a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">' . esc_html__('Terms of Service', 'recaptcha-enterprise-integration') . '</a>'
+		)
 	));
+
+	if ($disclosure === 'badge') {
+		return;
+	}
+
+	// Google's FAQ specifies visibility: hidden; display: none can stop reCAPTCHA working
+	// Single-class selectors so theme styles can override the message
+	wp_register_style('recaptcha-enterprise-frontend', false);
+	wp_enqueue_style('recaptcha-enterprise-frontend');
+	wp_add_inline_style('recaptcha-enterprise-frontend', '.grecaptcha-badge { visibility: hidden !important; } .recaptcha-disclosure { margin: 0.75rem 0 0; font-size: 0.8125rem; line-height: 1.5; }');
 }
 add_action('wp_enqueue_scripts', 'recaptcha_enterprise_enqueue_frontend_scripts');

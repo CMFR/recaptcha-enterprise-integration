@@ -27,6 +27,11 @@ grecaptcha.enterprise.ready(() => {
             input.name = 'g-recaptcha-response';
             form.append(input);
         }
+
+        if (recaptchaFrontend.disclosure) {
+            // Built and escaped server-side so the message can be translated
+            form.insertAdjacentHTML('afterend', '<p class="recaptcha-disclosure">' + recaptchaFrontend.disclosure + '</p>');
+        }
     });
 
     // Capture phase runs before the CF7 and User Registration submit handlers, which read the token synchronously

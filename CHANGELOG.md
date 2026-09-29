@@ -2,6 +2,19 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.2.0] – 2026-09-29
+- Renamed to Integration for reCAPTCHA Enterprise (slug and folder unchanged)
+- Added front-end protection for Contact Form 7 (spam filter) and User Registration (before the user is created), with server-side token verification
+- Invisible mode gets a fresh token on every submit; Challenge mode adds the checkbox above the submit button
+- Added Score Threshold setting for Invisible mode (default 0.5)
+- Added Disclosure setting: hide the badge and add a message below forms (default), show the badge, or hide it and add your own message
+- Added Settings and Documentation links on the Plugins screen
+- Added `readme.txt`, `Requires at least` and `Requires PHP` headers, and screenshots
+- Made all user-facing strings translatable
+- Added `uninstall.php` to delete plugin options
+- Settings page accessibility: field descriptions linked for screen readers, test results announced, notices stay until dismissed
+- `$_POST` input is unslashed and `isset()`-checked; settings notices escaped; test messages use `textContent`
+
 ## [1.1.5] – 2026-09-28
 - Fixed critical error when checking for updates: update checker `vendor/` files (Parsedown) were missing from releases
 - Restricted the token verification REST endpoint to admins and stopped returning Google's full response on failure
