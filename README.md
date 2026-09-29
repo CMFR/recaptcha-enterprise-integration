@@ -17,6 +17,8 @@ Easily integrate Google reCAPTCHA Enterprise with your WordPress site for enhanc
 
 The **Integration for reCAPTCHA Enterprise** plugin allows you to add Google reCAPTCHA Enterprise to your WordPress site for advanced bot protection. It provides a straightforward way to integrate reCAPTCHA verification into your forms, ensuring a secure user experience.
 
+![Settings page](.wordpress-org/screenshot-1.png)
+
 ### Features
 
 - Supports Google reCAPTCHA Enterprise

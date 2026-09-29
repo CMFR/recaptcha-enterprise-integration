@@ -67,6 +67,10 @@ Yes. Google allows hiding the badge as long as the site says it is protected by 
 
 The message is a `<p class="recaptcha-disclosure">` placed right after each protected form. Target `.recaptcha-disclosure` for the text and `.recaptcha-disclosure a` for the links. The plugin only sets a small top margin, font size and line height, so any theme rule on that class overrides it.
 
+== Screenshots ==
+
+1. Settings page with Invisible mode, score threshold, disclosure options and the built-in test.
+
 == Changelog ==
 
 = 1.1.5 =
