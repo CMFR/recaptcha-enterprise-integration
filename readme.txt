@@ -1,5 +1,5 @@
 === Integration for reCAPTCHA Enterprise ===
-Contributors: [wporg-username]
+Contributors: jaemiegyurik
 Tags: recaptcha, captcha, spam, contact form 7, user registration
 Requires at least: 6.0
 Tested up to: 7.1
