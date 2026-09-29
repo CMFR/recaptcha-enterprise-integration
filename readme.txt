@@ -69,7 +69,10 @@ The message is a `<p class="recaptcha-disclosure">` placed right after each prot
 
 == Screenshots ==
 
-1. Settings page with Invisible mode, score threshold, disclosure options and the built-in test.
+1. Settings page with Invisible mode, score threshold and disclosure options.
+2. The built-in test confirming the settings work.
+3. The built-in test showing Google's error when a key is wrong.
+4. A Contact Form 7 form with the reCAPTCHA message below it.
 
 == Changelog ==
 
