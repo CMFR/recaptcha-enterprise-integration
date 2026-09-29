@@ -4,7 +4,7 @@
  * Plugin Name: Integration for reCAPTCHA Enterprise
  * Plugin URI: https://github.com/CMFR/recaptcha-enterprise-integration
  * Description: Easily integrate Google reCAPTCHA Enterprise with WordPress
- * Version: 1.1.5
+ * Version: 1.2.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Clearinghouse for Military Family Readiness

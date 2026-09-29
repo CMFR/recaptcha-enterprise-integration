@@ -4,7 +4,7 @@ Tags: recaptcha, captcha, spam, contact form 7, user registration
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.5
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,17 @@ The message is a `<p class="recaptcha-disclosure">` placed right after each prot
 4. A Contact Form 7 form with the reCAPTCHA message below it.
 
 == Changelog ==
+
+= 1.2.0 =
+* Renamed to Integration for reCAPTCHA Enterprise
+* Protects Contact Form 7 and User Registration forms, with server-side token verification
+* Added Score Threshold setting for Invisible mode (default 0.5)
+* Added Disclosure setting: hide the badge and add a message below forms, show the badge, or hide it and add your own message
+* Added Settings and Documentation links on the Plugins screen
+* Made all strings translatable
+* Plugin options are deleted on uninstall
+* Settings page accessibility: field descriptions for screen readers, announced test results, notices stay until dismissed
+* Hardened input handling and output escaping on the settings page
 
 = 1.1.5 =
 * Fixed critical error when checking for updates: update checker `vendor/` files (Parsedown) were missing from releases
