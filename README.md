@@ -5,7 +5,7 @@
 **Requires at least:** 6.0  
 **Tested up to:** 7.1.2  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.2.0
+**Stable tag:** 1.2.1
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ The **Integration for reCAPTCHA Enterprise** plugin allows you to add Google reC
 
 ## Installation
 
-1. Upload the `recaptcha-enterprise-integration` directory to the `/wp-content/plugins/` directory.
+1. Download `recaptcha-enterprise-integration.zip` from the [latest release](https://github.com/CMFR/recaptcha-enterprise-integration/releases/latest) (not the "Source code" zip, which installs into a folder named after the version), then upload it under **Plugins** → **Add New Plugin** → **Upload Plugin**.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Navigate to **Settings** → **reCAPTCHA** to configure the plugin.
 

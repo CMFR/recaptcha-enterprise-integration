@@ -2,6 +2,10 @@
 
 All notable changes to this plugin will be documented here.
 
+## [1.2.1] – 2026-09-29
+- Fixed Challenge mode submissions marked as spam when another plugin delays the submit (e.g. Conditional Fields for CF7): the checkbox now resets after the server responds, not on submit
+- Releases now attach `recaptcha-enterprise-integration.zip`, which installs into `recaptcha-enterprise-integration/` instead of a version-named folder
+
 ## [1.2.0] – 2026-09-29
 - Renamed to Integration for reCAPTCHA Enterprise (slug and folder unchanged)
 - Added front-end protection for Contact Form 7 (spam filter) and User Registration (before the user is created), with server-side token verification

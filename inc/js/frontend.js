@@ -34,17 +34,19 @@ grecaptcha.enterprise.ready(() => {
         }
     });
 
-    // Capture phase runs before the CF7 and User Registration submit handlers, which read the token synchronously
+    // Tokens are single use, so reset the checkbox once the server has responded. Resetting on submit
+    // clears the token too early when another plugin (e.g. Conditional Fields for CF7) delays the submit
+    const resetWidget = (form) => widgets.has(form) && grecaptcha.enterprise.reset(widgets.get(form));
+    document.addEventListener('wpcf7submit', (e) => resetWidget(e.target));
+    if (window.jQuery) {
+        jQuery(document).on('user_registration_frontend_after_ajax_complete', (e, response, type, $form) => resetWidget($form[0]));
+    }
+
+    // Capture phase runs before the CF7 and User Registration submit handlers
     document.addEventListener('submit', (e) => {
         const form = e.target;
 
-        if (!form.matches(recaptchaSelector) || recaptchaResubmitting) {
-            return;
-        }
-
-        // Tokens are single use, so reset once the form's own handlers have read this one
-        if (widgets.has(form)) {
-            setTimeout(() => grecaptcha.enterprise.reset(widgets.get(form)));
+        if (!form.matches(recaptchaSelector) || recaptchaResubmitting || widgets.has(form)) {
             return;
         }
 

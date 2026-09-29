@@ -4,7 +4,7 @@ Tags: recaptcha, captcha, spam, contact form 7, user registration
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,10 @@ The message is a `<p class="recaptcha-disclosure">` placed right after each prot
 4. A Contact Form 7 form with the reCAPTCHA message below it.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixed Challenge mode on Contact Form 7 forms that use Conditional Fields for CF7
+* Releases now include an installable zip that installs into the right folder
 
 = 1.2.0 =
 * Renamed to Integration for reCAPTCHA Enterprise
