@@ -59,3 +59,38 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 	}
 }
 add_action('admin_enqueue_scripts', 'recaptcha_enterprise_enqueue_scripts');
+
+// Enqueue Front-End Form Protection
+function recaptcha_enterprise_enqueue_frontend_scripts() {
+	$site_key = get_option('recaptcha_enterprise_site_key', '');
+
+	// Server-side checks pass everything until settings are complete, so skip the scripts too
+	if (!$site_key || !get_option('recaptcha_enterprise_project_id', '') || !get_option('recaptcha_enterprise_api_key', '')) {
+		return;
+	}
+
+	$recaptcha_version = get_option('cmfr_recaptcha_version', 'invisible');
+	$render = $recaptcha_version === 'invisible' ? $site_key : 'explicit';
+
+	wp_enqueue_script(
+		'recaptcha-enterprise',
+		'https://www.google.com/recaptcha/enterprise.js?render=' . rawurlencode($render),
+		array(),
+		null,
+		true
+	);
+
+	wp_enqueue_script(
+		'recaptcha-enterprise-frontend',
+		RECAPTCHA_ENTERPRISE_URL . 'inc/js/frontend.js',
+		array('recaptcha-enterprise'),
+		filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/frontend.js'),
+		true
+	);
+
+	wp_localize_script('recaptcha-enterprise-frontend', 'recaptchaFrontend', array(
+		'site_key' => $site_key,
+		'version'  => $recaptcha_version
+	));
+}
+add_action('wp_enqueue_scripts', 'recaptcha_enterprise_enqueue_frontend_scripts');

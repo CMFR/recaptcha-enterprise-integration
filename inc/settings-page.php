@@ -38,15 +38,18 @@ function recaptcha_enterprise_settings_page() {
 
 	if ( isset( $_POST['submit'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
-		$site_key = sanitize_text_field( $_POST['recaptcha_enterprise_site_key'] );
-		$project_id = sanitize_text_field( $_POST['recaptcha_enterprise_project_id'] );
-		$api_key = sanitize_text_field( $_POST['recaptcha_enterprise_api_key'] );
-		$recaptcha_version = in_array( $_POST['cmfr_recaptcha_version'], ['challenge', 'invisible'], true ) ? $_POST['cmfr_recaptcha_version'] : 'invisible';
+		$site_key = isset( $_POST['recaptcha_enterprise_site_key'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_enterprise_site_key'] ) ) : '';
+		$project_id = isset( $_POST['recaptcha_enterprise_project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_enterprise_project_id'] ) ) : '';
+		$api_key = isset( $_POST['recaptcha_enterprise_api_key'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_enterprise_api_key'] ) ) : '';
+		$recaptcha_version = isset( $_POST['cmfr_recaptcha_version'] ) ? sanitize_key( wp_unslash( $_POST['cmfr_recaptcha_version'] ) ) : '';
+		$recaptcha_version = in_array( $recaptcha_version, ['challenge', 'invisible'], true ) ? $recaptcha_version : 'invisible';
+		$score_threshold = isset( $_POST['recaptcha_enterprise_score_threshold'] ) ? min( 1, max( 0, (float) wp_unslash( $_POST['recaptcha_enterprise_score_threshold'] ) ) ) : 0.5;
 
         update_option( 'recaptcha_enterprise_site_key', $site_key );
         update_option( 'recaptcha_enterprise_project_id', $project_id );
         update_option( 'recaptcha_enterprise_api_key', $api_key );
         update_option( 'cmfr_recaptcha_version', $recaptcha_version );
+        update_option( 'recaptcha_enterprise_score_threshold', $score_threshold );
         add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
 	}
 
@@ -56,6 +59,7 @@ function recaptcha_enterprise_settings_page() {
         delete_option( 'recaptcha_enterprise_project_id' );
         delete_option( 'recaptcha_enterprise_api_key' );
         delete_option( 'cmfr_recaptcha_version' );
+        delete_option( 'recaptcha_enterprise_score_threshold' );
         add_settings_error( 'recaptcha_enterprise_settings', 'settings_deleted', 'Settings have been deleted.', 'updated' );
 
         // Clear variables for display
@@ -67,7 +71,7 @@ function recaptcha_enterprise_settings_page() {
 
     if ( isset( $_POST['submit_challenge_test'] ) && isset( $_POST['g-recaptcha-response'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
-		$token = sanitize_text_field( $_POST['g-recaptcha-response'] );
+		$token = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) );
 		$api_key = get_option( 'recaptcha_enterprise_api_key' );
 		$project_id = get_option( 'recaptcha_enterprise_project_id' );
 		$site_key = get_option( 'recaptcha_enterprise_site_key' );
@@ -94,6 +98,7 @@ function recaptcha_enterprise_settings_page() {
 	$project_id = get_option( 'recaptcha_enterprise_project_id', '' );
 	$api_key = get_option( 'recaptcha_enterprise_api_key', '' );
 	$recaptcha_version = get_option( 'cmfr_recaptcha_version', 'invisible' );
+	$score_threshold = get_option( 'recaptcha_enterprise_score_threshold', 0.5 );
 
 	?>
 	<div class="wrap recaptcha-wrap">
@@ -128,6 +133,13 @@ function recaptcha_enterprise_settings_page() {
 							<option value="invisible" <?php selected( $recaptcha_version, 'invisible' ); ?>>Invisible</option>
 							<option value="challenge" <?php selected( $recaptcha_version, 'challenge' ); ?>>Challenge</option>
 						</select>
+					</td>
+				</tr>
+				<tr>
+					<th><label for="recaptcha_enterprise_score_threshold">Score Threshold</label></th>
+					<td>
+						<input type="number" name="recaptcha_enterprise_score_threshold" id="recaptcha_enterprise_score_threshold" value="<?php echo esc_attr( $score_threshold ); ?>" min="0" max="1" step="0.1">
+						<p class="description">Invisible only. Submissions scoring below this are blocked (0.0 is likely a bot, 1.0 is likely a person). Default is 0.5.</p>
 					</td>
 				</tr>
 			</table>

@@ -63,3 +63,9 @@ if ($api) {
 
 // remove the "check for updates" link in the plugin list
 add_filter('puc_manual_check_link-recaptcha-enterprise-integration', '__return_empty_string');
+
+// add a Settings link before Deactivate in the plugin list
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links) {
+	array_unshift($links, '<a href="' . esc_url(admin_url('options-general.php?page=recaptcha-enterprise-settings')) . '">Settings</a>');
+	return $links;
+});

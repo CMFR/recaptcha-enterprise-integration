@@ -54,7 +54,9 @@ async function verifyToken(token, action) {
 function showToast(message, type = "info", button = null) {
     const notice = document.createElement("div");
     notice.className = `notice notice-${type} is-dismissible`;
-    notice.innerHTML = `<p>${message}</p>`;
+    const text = document.createElement("p");
+    text.textContent = message;
+    notice.append(text);
 
     // Append to the admin notice area
    const noticeArea = document.querySelector("td.recaptcha-test-message") || document.body;
