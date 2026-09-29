@@ -148,19 +148,19 @@ function recaptcha_enterprise_settings_page() {
 				<tr class="recaptcha-invisible-only" <?php echo $recaptcha_version === 'challenge' ? 'hidden' : ''; ?>>
 					<th><label for="recaptcha_enterprise_score_threshold"><?php esc_html_e( 'Score Threshold', 'recaptcha-enterprise-integration' ); ?></label></th>
 					<td>
-						<input type="number" name="recaptcha_enterprise_score_threshold" id="recaptcha_enterprise_score_threshold" value="<?php echo esc_attr( $score_threshold ); ?>" min="0" max="1" step="0.1">
-						<p class="description"><?php esc_html_e( 'Submissions scoring below this are blocked (0.0 is likely a bot, 1.0 is likely a person). Default is 0.5.', 'recaptcha-enterprise-integration' ); ?></p>
+						<input type="number" name="recaptcha_enterprise_score_threshold" id="recaptcha_enterprise_score_threshold" aria-describedby="recaptcha_enterprise_score_threshold_description" value="<?php echo esc_attr( $score_threshold ); ?>" min="0" max="1" step="0.1">
+						<p class="description" id="recaptcha_enterprise_score_threshold_description"><?php esc_html_e( 'Submissions scoring below this are blocked (0.0 is likely a bot, 1.0 is likely a person). Default is 0.5.', 'recaptcha-enterprise-integration' ); ?></p>
 					</td>
 				</tr>
 				<tr class="recaptcha-invisible-only" <?php echo $recaptcha_version === 'challenge' ? 'hidden' : ''; ?>>
 					<th><label for="recaptcha_enterprise_disclosure"><?php esc_html_e( 'Disclosure', 'recaptcha-enterprise-integration' ); ?></label></th>
 					<td>
-						<select name="recaptcha_enterprise_disclosure" id="recaptcha_enterprise_disclosure">
+						<select name="recaptcha_enterprise_disclosure" id="recaptcha_enterprise_disclosure" aria-describedby="recaptcha_enterprise_disclosure_description">
 							<option value="form" <?php selected( $disclosure, 'form' ); ?>><?php esc_html_e( 'Hide badge, add message below forms', 'recaptcha-enterprise-integration' ); ?></option>
 							<option value="badge" <?php selected( $disclosure, 'badge' ); ?>><?php esc_html_e( 'Show Google badge', 'recaptcha-enterprise-integration' ); ?></option>
 							<option value="custom" <?php selected( $disclosure, 'custom' ); ?>><?php esc_html_e( "Hide badge, I'll add my own message", 'recaptcha-enterprise-integration' ); ?></option>
 						</select>
-						<p class="description"><?php esc_html_e( 'Google allows hiding the badge only if the site says it\'s protected by reCAPTCHA. With your own message, include "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply." near your forms.', 'recaptcha-enterprise-integration' ); ?></p>
+						<p class="description" id="recaptcha_enterprise_disclosure_description"><?php esc_html_e( 'Google allows hiding the badge only if the site says it\'s protected by reCAPTCHA. With your own message, include "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply." near your forms.', 'recaptcha-enterprise-integration' ); ?></p>
 					</td>
 				</tr>
 			</table>
@@ -174,7 +174,7 @@ function recaptcha_enterprise_settings_page() {
         <h2><?php esc_html_e( 'Test reCAPTCHA Integration', 'recaptcha-enterprise-integration' ); ?></h2>
         <table class="form-table">
             <tr class="recaptcha-test">
-                <th><label><?php esc_html_e( 'Integration', 'recaptcha-enterprise-integration' ); ?></label></th>
+                <th><?php esc_html_e( 'Integration', 'recaptcha-enterprise-integration' ); ?></th>
                 <td>
                     <?php if ( $site_key && $project_id && $api_key ) : ?>
                         <?php if ( $recaptcha_version === 'challenge' ) : ?>
@@ -193,7 +193,7 @@ function recaptcha_enterprise_settings_page() {
             </tr>
             <tr>
                 <th></th>
-                <td class="recaptcha-test-message"></td>
+                <td class="recaptcha-test-message" role="status"></td>
             </tr>
         </table>
 	</div>

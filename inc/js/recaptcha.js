@@ -53,24 +53,23 @@ async function verifyToken(token, action) {
     }
 }
 
-// Toast Notification with Button Reset
-function showToast(message, type = "info", button = null) {
+// Test result notice; stays until dismissed or replaced by the next test
+function showToast(message, type = "info") {
     const notice = document.createElement("div");
     notice.className = `notice notice-${type} is-dismissible`;
     const text = document.createElement("p");
     text.textContent = message;
-    notice.append(text);
 
-    // Append to the admin notice area
-   const noticeArea = document.querySelector("td.recaptcha-test-message") || document.body;
-    noticeArea.prepend(notice);
+    // Same markup as core's dismissible notices so it picks up the admin styles
+    const dismiss = document.createElement("button");
+    dismiss.type = "button";
+    dismiss.className = "notice-dismiss";
+    const label = document.createElement("span");
+    label.className = "screen-reader-text";
+    label.textContent = wp.i18n.__("Dismiss this notice.", "recaptcha-enterprise-integration");
+    dismiss.append(label);
+    dismiss.addEventListener("click", () => notice.remove());
 
-    // Auto-remove after 5 seconds and reset button state if provided
-    setTimeout(() => {
-        notice.remove();
-        if (button) {
-            button.disabled = false;
-            button.textContent = wp.i18n.__("Test reCAPTCHA", "recaptcha-enterprise-integration");
-        }
-    }, 5000);
+    notice.append(text, dismiss);
+    document.querySelector("td.recaptcha-test-message").replaceChildren(notice);
 }
