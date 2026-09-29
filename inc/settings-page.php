@@ -38,10 +38,11 @@ function recaptcha_enterprise_settings_page() {
 
 	if ( isset( $_POST['submit'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
-		$site_key = sanitize_text_field( $_POST['recaptcha_enterprise_site_key'] );
-		$project_id = sanitize_text_field( $_POST['recaptcha_enterprise_project_id'] );
-		$api_key = sanitize_text_field( $_POST['recaptcha_enterprise_api_key'] );
-		$recaptcha_version = in_array( $_POST['cmfr_recaptcha_version'], ['challenge', 'invisible'], true ) ? $_POST['cmfr_recaptcha_version'] : 'invisible';
+		$site_key = isset( $_POST['recaptcha_enterprise_site_key'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_enterprise_site_key'] ) ) : '';
+		$project_id = isset( $_POST['recaptcha_enterprise_project_id'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_enterprise_project_id'] ) ) : '';
+		$api_key = isset( $_POST['recaptcha_enterprise_api_key'] ) ? sanitize_text_field( wp_unslash( $_POST['recaptcha_enterprise_api_key'] ) ) : '';
+		$recaptcha_version = isset( $_POST['cmfr_recaptcha_version'] ) ? sanitize_key( wp_unslash( $_POST['cmfr_recaptcha_version'] ) ) : '';
+		$recaptcha_version = in_array( $recaptcha_version, ['challenge', 'invisible'], true ) ? $recaptcha_version : 'invisible';
 
         update_option( 'recaptcha_enterprise_site_key', $site_key );
         update_option( 'recaptcha_enterprise_project_id', $project_id );
@@ -67,7 +68,7 @@ function recaptcha_enterprise_settings_page() {
 
     if ( isset( $_POST['submit_challenge_test'] ) && isset( $_POST['g-recaptcha-response'] ) ) {
 		check_admin_referer( 'recaptcha_enterprise_settings' );
-		$token = sanitize_text_field( $_POST['g-recaptcha-response'] );
+		$token = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) );
 		$api_key = get_option( 'recaptcha_enterprise_api_key' );
 		$project_id = get_option( 'recaptcha_enterprise_project_id' );
 		$site_key = get_option( 'recaptcha_enterprise_site_key' );
