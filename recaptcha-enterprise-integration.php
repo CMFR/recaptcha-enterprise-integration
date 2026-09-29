@@ -68,14 +68,14 @@ add_filter('puc_manual_check_link-recaptcha-enterprise-integration', '__return_e
 
 // add a Settings link before Deactivate in the plugin list
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links) {
-	array_unshift($links, '<a href="' . esc_url(admin_url('options-general.php?page=recaptcha-enterprise-settings')) . '">Settings</a>');
+	array_unshift($links, '<a href="' . esc_url(admin_url('options-general.php?page=recaptcha-enterprise-settings')) . '">' . esc_html__('Settings', 'recaptcha-enterprise-integration') . '</a>');
 	return $links;
 });
 
 // add a Documentation link after Visit plugin site
 add_filter('plugin_row_meta', function ($links, $file) {
 	if ($file === plugin_basename(__FILE__)) {
-		$links[] = '<a href="https://github.com/CMFR/recaptcha-enterprise-integration#readme" target="_blank" rel="noopener noreferrer">Documentation</a>';
+		$links[] = '<a href="https://github.com/CMFR/recaptcha-enterprise-integration#readme" target="_blank" rel="noopener noreferrer">' . esc_html__('Documentation', 'recaptcha-enterprise-integration') . '</a>';
 	}
 	return $links;
 }, 10, 2);

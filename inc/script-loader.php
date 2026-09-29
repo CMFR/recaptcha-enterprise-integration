@@ -10,10 +10,11 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 	wp_enqueue_script(
 		'recaptcha-enterprise-admin-scripts',
 		RECAPTCHA_ENTERPRISE_URL . 'inc/js/admin-scripts.js',
-		array(),
+		array('wp-i18n'),
 		filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/admin-scripts.js'),
 		true
 	);
+	wp_set_script_translations('recaptcha-enterprise-admin-scripts', 'recaptcha-enterprise-integration');
 
 	$site_key = get_option('recaptcha_enterprise_site_key', '');
 	$recaptcha_version = get_option('cmfr_recaptcha_version', 'invisible');
@@ -45,10 +46,11 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 		wp_enqueue_script(
 			'recaptcha-frontend',
 			RECAPTCHA_ENTERPRISE_URL . 'inc/js/recaptcha.js',
-			array('recaptcha-enterprise'),
+			array('recaptcha-enterprise', 'wp-i18n'),
 			filemtime(RECAPTCHA_ENTERPRISE_PATH . 'inc/js/recaptcha.js'),
 			true
 		);
+		wp_set_script_translations('recaptcha-frontend', 'recaptcha-enterprise-integration');
 
 		wp_localize_script('recaptcha-frontend', 'recaptchaData', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
@@ -94,7 +96,12 @@ function recaptcha_enterprise_enqueue_frontend_scripts() {
 	wp_localize_script('recaptcha-enterprise-frontend', 'recaptchaFrontend', array(
 		'site_key'   => $site_key,
 		'version'    => $recaptcha_version,
-		'disclosure' => $disclosure === 'form'
+		'disclosure' => $disclosure !== 'form' ? '' : sprintf(
+			/* translators: 1: Google Privacy Policy link, 2: Google Terms of Service link */
+			esc_html__('This site is protected by reCAPTCHA and the Google %1$s and %2$s apply.', 'recaptcha-enterprise-integration'),
+			'<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">' . esc_html__('Privacy Policy', 'recaptcha-enterprise-integration') . '</a>',
+			'<a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">' . esc_html__('Terms of Service', 'recaptcha-enterprise-integration') . '</a>'
+		)
 	));
 
 	if ($disclosure === 'badge') {

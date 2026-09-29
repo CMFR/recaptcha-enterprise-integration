@@ -4,14 +4,14 @@ function onClick(e, action) {
 
     // Check if recaptchaData is defined
     if (typeof recaptchaData === 'undefined') {
-        showToast("reCAPTCHA data is not loaded.", "error");
+        showToast(wp.i18n.__("reCAPTCHA data is not loaded.", "recaptcha-enterprise-integration"), "error");
         return;
     }
 
     const siteKey = recaptchaData.site_key;
 
     if (!siteKey || !action) {
-        showToast("Missing site key or action.", "error");
+        showToast(wp.i18n.__("Missing site key or action.", "recaptcha-enterprise-integration"), "error");
         return;
     }
 
@@ -20,7 +20,8 @@ function onClick(e, action) {
             const token = await grecaptcha.enterprise.execute(siteKey, { action });
             verifyToken(token, action);
         } catch (error) {
-            showToast("Error executing reCAPTCHA: " + error.message, "error");
+            // translators: %s: error message
+            showToast(wp.i18n.sprintf(wp.i18n.__("Error executing reCAPTCHA: %s", "recaptcha-enterprise-integration"), error.message), "error");
         }
     });
 }
@@ -40,13 +41,15 @@ async function verifyToken(token, action) {
         const result = await response.json();
 
         if (result.success) {
-            showToast("✅ Token validated successfully!", "success");
+            showToast("✅ " + wp.i18n.__("Token validated successfully!", "recaptcha-enterprise-integration"), "success");
         } else {
-            showToast("❌ Token validation failed: " + (result.error ?? result.message), "error");
+            // translators: %s: error message
+            showToast("❌ " + wp.i18n.sprintf(wp.i18n.__("Token validation failed: %s", "recaptcha-enterprise-integration"), result.error ?? result.message), "error");
         }
 
     } catch (error) {
-        showToast("Error verifying token: " + error.message, "error");
+        // translators: %s: error message
+        showToast(wp.i18n.sprintf(wp.i18n.__("Error verifying token: %s", "recaptcha-enterprise-integration"), error.message), "error");
     }
 }
 
@@ -67,7 +70,7 @@ function showToast(message, type = "info", button = null) {
         notice.remove();
         if (button) {
             button.disabled = false;
-            button.textContent = "Test reCAPTCHA";
+            button.textContent = wp.i18n.__("Test reCAPTCHA", "recaptcha-enterprise-integration");
         }
     }, 5000);
 }

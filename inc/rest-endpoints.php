@@ -3,7 +3,7 @@
 function recaptcha_enterprise_check_rest_api() {
 	if ( ! function_exists( 'rest_url' ) ) {
 		add_action( 'admin_notices', function() {
-			echo '<div class="notice notice-error"><p><strong>reCAPTCHA Enterprise:</strong> The REST API is not enabled on this site. Please enable the WordPress REST API for this plugin to work.</p></div>';
+			echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'reCAPTCHA Enterprise:', 'recaptcha-enterprise-integration' ) . '</strong> ' . esc_html__( 'The REST API is not enabled on this site. Please enable the WordPress REST API for this plugin to work.', 'recaptcha-enterprise-integration' ) . '</p></div>';
 		});
 		return false;
 	}

@@ -37,5 +37,5 @@ function toggleVisibility() {
 
     // Update button text
     const button = document.querySelector('button[onclick="toggleVisibility()"]');
-    button.textContent = shouldReveal ? 'Hide Secrets' : 'Reveal Secrets';
+    button.textContent = shouldReveal ? wp.i18n.__('Hide Secrets', 'recaptcha-enterprise-integration') : wp.i18n.__('Reveal Secrets', 'recaptcha-enterprise-integration');
 }
