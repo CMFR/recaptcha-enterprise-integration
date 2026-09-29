@@ -1,0 +1,20 @@
+name: Release zip
+
+# GitHub's source zip unpacks to recaptcha-enterprise-integration-<version>/, which WordPress keeps as the
+# plugin folder. Attach a zip with a fixed folder name; the update checker uses release assets first.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git archive --format=zip --prefix=recaptcha-enterprise-integration/ -o recaptcha-enterprise-integration.zip HEAD
+      - run: gh release upload "$GITHUB_REF_NAME" recaptcha-enterprise-integration.zip --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
