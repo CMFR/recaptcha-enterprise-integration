@@ -8,6 +8,28 @@ const recaptchaSelector = Object.keys(recaptchaForms).join(', ');
 const recaptchaAction = (form) => recaptchaForms[Object.keys(recaptchaForms).find((selector) => form.matches(selector))];
 let recaptchaResubmitting = false;
 
+const recaptchaDisclosure = () => {
+    const link = (href, text) => {
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = text;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        return a;
+    };
+
+    const message = document.createElement('p');
+    message.className = 'recaptcha-disclosure';
+    message.append(
+        'This site is protected by reCAPTCHA and the Google ',
+        link('https://policies.google.com/privacy', 'Privacy Policy'),
+        ' and ',
+        link('https://policies.google.com/terms', 'Terms of Service'),
+        ' apply.'
+    );
+    return message;
+};
+
 grecaptcha.enterprise.ready(() => {
     const widgets = new Map();
 
@@ -26,6 +48,10 @@ grecaptcha.enterprise.ready(() => {
             input.type = 'hidden';
             input.name = 'g-recaptcha-response';
             form.append(input);
+        }
+
+        if (recaptchaFrontend.disclosure) {
+            form.after(recaptchaDisclosure());
         }
     });
 

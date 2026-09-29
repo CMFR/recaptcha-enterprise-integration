@@ -1,4 +1,4 @@
-# reCAPTCHA Enterprise Integration
+# Integration for reCAPTCHA Enterprise
 
 **Contributors:** Jaemie Gyurik, Clearinghouse for Military Family Readiness at Penn State  
 **Tags:** reCAPTCHA, enterprise, security, spam protection, WordPress  
@@ -15,7 +15,7 @@ Easily integrate Google reCAPTCHA Enterprise with your WordPress site for enhanc
 
 ## Description
 
-The **reCAPTCHA Enterprise Integration** plugin allows you to add Google reCAPTCHA Enterprise to your WordPress site for advanced bot protection. It provides a straightforward way to integrate reCAPTCHA verification into your forms, ensuring a secure user experience.
+The **Integration for reCAPTCHA Enterprise** plugin allows you to add Google reCAPTCHA Enterprise to your WordPress site for advanced bot protection. It provides a straightforward way to integrate reCAPTCHA verification into your forms, ensuring a secure user experience.
 
 ### Features
 
@@ -80,6 +80,10 @@ See [CHANGELOG.md](./CHANGELOG.md) for full release history.
 2. Click **+ CREATE KEY**.
 3. Choose a score-based key for Invisible mode or a checkbox key for Challenge mode.
 4. Complete the setup and copy the generated Site Key.
+
+### How do I style the message below forms?
+
+When **Disclosure** is set to **Hide badge, add message below forms**, the plugin adds a `<p class="recaptcha-disclosure">` right after each protected form. Target `.recaptcha-disclosure` for the text and `.recaptcha-disclosure a` for the links. The plugin only sets a small top margin, font size and line height, so any theme rule on that class overrides it.
 
 ### Can I use this plugin with reCAPTCHA v2 or v3?
 

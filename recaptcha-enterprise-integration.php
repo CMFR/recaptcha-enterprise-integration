@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Plugin Name: reCAPTCHA Enterprise Integration
+ * Plugin Name: Integration for reCAPTCHA Enterprise
  * Plugin URI: https://github.com/CMFR/recaptcha-enterprise-integration
  * Description: Easily integrate Google reCAPTCHA Enterprise with WordPress
  * Version: 1.1.5
+ * Requires at least: 6.0
+ * Requires PHP: 7.4
  * Author: Clearinghouse for Military Family Readiness
  * Author URI: https://militaryfamilies.psu.edu
  * License: GPL-2.0-or-later
@@ -69,3 +71,11 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links)
 	array_unshift($links, '<a href="' . esc_url(admin_url('options-general.php?page=recaptcha-enterprise-settings')) . '">Settings</a>');
 	return $links;
 });
+
+// add a Documentation link after Visit plugin site
+add_filter('plugin_row_meta', function ($links, $file) {
+	if ($file === plugin_basename(__FILE__)) {
+		$links[] = '<a href="https://github.com/CMFR/recaptcha-enterprise-integration#readme" target="_blank" rel="noopener noreferrer">Documentation</a>';
+	}
+	return $links;
+}, 10, 2);

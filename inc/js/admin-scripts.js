@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			}, 500);
 		}, 4000); // 4 second delay before fade
 	}
+
+	// Score threshold and badge settings don't apply to Challenge keys
+	const version = document.getElementById('cmfr_recaptcha_version');
+	version.addEventListener('change', () => {
+		document.querySelectorAll('.recaptcha-invisible-only').forEach((row) => {
+			row.hidden = version.value === 'challenge';
+		});
+	});
 });
 
 function toggleVisibility() {

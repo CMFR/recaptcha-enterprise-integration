@@ -22,7 +22,7 @@ function recaptcha_enterprise_enqueue_scripts($hook) {
 	if ($recaptcha_version === 'invisible') {
 		wp_add_inline_style(
 			'recaptcha-enterprise-admin-styles',
-			'.grecaptcha-badge { display: none !important; }'
+			'.grecaptcha-badge { visibility: hidden !important; }'
 		);
 	}
 
@@ -88,9 +88,23 @@ function recaptcha_enterprise_enqueue_frontend_scripts() {
 		true
 	);
 
+	// Challenge mode shows Google branding in the widget, so the badge setting only applies to Invisible
+	$disclosure = $recaptcha_version === 'invisible' ? get_option('recaptcha_enterprise_disclosure', 'form') : 'badge';
+
 	wp_localize_script('recaptcha-enterprise-frontend', 'recaptchaFrontend', array(
-		'site_key' => $site_key,
-		'version'  => $recaptcha_version
+		'site_key'   => $site_key,
+		'version'    => $recaptcha_version,
+		'disclosure' => $disclosure === 'form'
 	));
+
+	if ($disclosure === 'badge') {
+		return;
+	}
+
+	// Google's FAQ specifies visibility: hidden; display: none can stop reCAPTCHA working
+	// Single-class selectors so theme styles can override the message
+	wp_register_style('recaptcha-enterprise-frontend', false);
+	wp_enqueue_style('recaptcha-enterprise-frontend');
+	wp_add_inline_style('recaptcha-enterprise-frontend', '.grecaptcha-badge { visibility: hidden !important; } .recaptcha-disclosure { margin: 0.75rem 0 0; font-size: 0.8125rem; line-height: 1.5; }');
 }
 add_action('wp_enqueue_scripts', 'recaptcha_enterprise_enqueue_frontend_scripts');

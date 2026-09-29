@@ -21,7 +21,7 @@ add_action('admin_enqueue_scripts', 'recaptcha_enterprise_enqueue_admin_styles')
 // Register Settings Page
 function recaptcha_enterprise_register_settings_page() {
 	add_options_page(
-		'reCAPTCHA Enterprise Integration',
+		'Integration for reCAPTCHA Enterprise',
 		'reCAPTCHA',
 		'manage_options',
 		'recaptcha-enterprise-settings',
@@ -44,12 +44,15 @@ function recaptcha_enterprise_settings_page() {
 		$recaptcha_version = isset( $_POST['cmfr_recaptcha_version'] ) ? sanitize_key( wp_unslash( $_POST['cmfr_recaptcha_version'] ) ) : '';
 		$recaptcha_version = in_array( $recaptcha_version, ['challenge', 'invisible'], true ) ? $recaptcha_version : 'invisible';
 		$score_threshold = isset( $_POST['recaptcha_enterprise_score_threshold'] ) ? min( 1, max( 0, (float) wp_unslash( $_POST['recaptcha_enterprise_score_threshold'] ) ) ) : 0.5;
+		$disclosure = isset( $_POST['recaptcha_enterprise_disclosure'] ) ? sanitize_key( wp_unslash( $_POST['recaptcha_enterprise_disclosure'] ) ) : '';
+		$disclosure = in_array( $disclosure, ['badge', 'form', 'custom'], true ) ? $disclosure : 'form';
 
         update_option( 'recaptcha_enterprise_site_key', $site_key );
         update_option( 'recaptcha_enterprise_project_id', $project_id );
         update_option( 'recaptcha_enterprise_api_key', $api_key );
         update_option( 'cmfr_recaptcha_version', $recaptcha_version );
         update_option( 'recaptcha_enterprise_score_threshold', $score_threshold );
+        update_option( 'recaptcha_enterprise_disclosure', $disclosure );
         add_settings_error('recaptcha_enterprise_settings','settings_updated','Settings updated successfully.','updated');
 	}
 
@@ -60,6 +63,7 @@ function recaptcha_enterprise_settings_page() {
         delete_option( 'recaptcha_enterprise_api_key' );
         delete_option( 'cmfr_recaptcha_version' );
         delete_option( 'recaptcha_enterprise_score_threshold' );
+        delete_option( 'recaptcha_enterprise_disclosure' );
         add_settings_error( 'recaptcha_enterprise_settings', 'settings_deleted', 'Settings have been deleted.', 'updated' );
 
         // Clear variables for display
@@ -99,10 +103,11 @@ function recaptcha_enterprise_settings_page() {
 	$api_key = get_option( 'recaptcha_enterprise_api_key', '' );
 	$recaptcha_version = get_option( 'cmfr_recaptcha_version', 'invisible' );
 	$score_threshold = get_option( 'recaptcha_enterprise_score_threshold', 0.5 );
+	$disclosure = get_option( 'recaptcha_enterprise_disclosure', 'form' );
 
 	?>
 	<div class="wrap recaptcha-wrap">
-		<h1>reCAPTCHA Enterprise Integration</h1>
+		<h1>Integration for reCAPTCHA Enterprise</h1>
 
         <?php settings_errors( 'recaptcha_enterprise_settings' ); ?>
 
@@ -127,7 +132,7 @@ function recaptcha_enterprise_settings_page() {
 					<td><input type="password" name="recaptcha_enterprise_site_key" id="recaptcha_enterprise_site_key" value="<?php echo esc_attr( $site_key ); ?>"></td>
 				</tr>
 				<tr>
-					<th><label>Version</label></th>
+					<th><label for="cmfr_recaptcha_version">Version</label></th>
 					<td>
 						<select name="cmfr_recaptcha_version" id="cmfr_recaptcha_version">
 							<option value="invisible" <?php selected( $recaptcha_version, 'invisible' ); ?>>Invisible</option>
@@ -135,11 +140,22 @@ function recaptcha_enterprise_settings_page() {
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="recaptcha-invisible-only" <?php echo $recaptcha_version === 'challenge' ? 'hidden' : ''; ?>>
 					<th><label for="recaptcha_enterprise_score_threshold">Score Threshold</label></th>
 					<td>
 						<input type="number" name="recaptcha_enterprise_score_threshold" id="recaptcha_enterprise_score_threshold" value="<?php echo esc_attr( $score_threshold ); ?>" min="0" max="1" step="0.1">
-						<p class="description">Invisible only. Submissions scoring below this are blocked (0.0 is likely a bot, 1.0 is likely a person). Default is 0.5.</p>
+						<p class="description">Submissions scoring below this are blocked (0.0 is likely a bot, 1.0 is likely a person). Default is 0.5.</p>
+					</td>
+				</tr>
+				<tr class="recaptcha-invisible-only" <?php echo $recaptcha_version === 'challenge' ? 'hidden' : ''; ?>>
+					<th><label for="recaptcha_enterprise_disclosure">Disclosure</label></th>
+					<td>
+						<select name="recaptcha_enterprise_disclosure" id="recaptcha_enterprise_disclosure">
+							<option value="form" <?php selected( $disclosure, 'form' ); ?>>Hide badge, add message below forms</option>
+							<option value="badge" <?php selected( $disclosure, 'badge' ); ?>>Show Google badge</option>
+							<option value="custom" <?php selected( $disclosure, 'custom' ); ?>>Hide badge, I'll add my own message</option>
+						</select>
+						<p class="description">Google allows hiding the badge only if the site says it's protected by reCAPTCHA. With your own message, include "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply." near your forms.</p>
 					</td>
 				</tr>
 			</table>
