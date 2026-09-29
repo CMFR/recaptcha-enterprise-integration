@@ -53,7 +53,7 @@ function recaptcha_enterprise_settings_page() {
         update_option( 'cmfr_recaptcha_version', $recaptcha_version );
         update_option( 'recaptcha_enterprise_score_threshold', $score_threshold );
         update_option( 'recaptcha_enterprise_disclosure', $disclosure );
-        add_settings_error('recaptcha_enterprise_settings','settings_updated',__( 'Settings updated successfully.', 'recaptcha-enterprise-integration' ),'updated');
+        add_settings_error('recaptcha_enterprise_settings','settings_updated',esc_html__( 'Settings updated successfully.', 'recaptcha-enterprise-integration' ),'updated');
 	}
 
     if ( isset( $_POST['delete'] ) ) {
@@ -64,7 +64,7 @@ function recaptcha_enterprise_settings_page() {
         delete_option( 'cmfr_recaptcha_version' );
         delete_option( 'recaptcha_enterprise_score_threshold' );
         delete_option( 'recaptcha_enterprise_disclosure' );
-        add_settings_error( 'recaptcha_enterprise_settings', 'settings_deleted', __( 'Settings have been deleted.', 'recaptcha-enterprise-integration' ), 'updated' );
+        add_settings_error( 'recaptcha_enterprise_settings', 'settings_deleted', esc_html__( 'Settings have been deleted.', 'recaptcha-enterprise-integration' ), 'updated' );
 
         // Clear variables for display
         $site_key = '';
@@ -86,13 +86,13 @@ function recaptcha_enterprise_settings_page() {
 			array('body' => $body,'headers' => array('Content-Type' => 'application/json'),'timeout' => 15)
 		);
 		if ( is_wp_error( $response ) ) {
-			add_settings_error('recaptcha_enterprise_settings','challenge_test_error',__( 'Error connecting to reCAPTCHA API.', 'recaptcha-enterprise-integration' ),'error');
+			add_settings_error('recaptcha_enterprise_settings','challenge_test_error',esc_html__( 'Error connecting to reCAPTCHA API.', 'recaptcha-enterprise-integration' ),'error');
 		} else {
 			$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
 			if ( isset( $response_body['tokenProperties']['valid'] ) && $response_body['tokenProperties']['valid'] === true ) {
-				add_settings_error('recaptcha_enterprise_settings','challenge_test_success',__( 'reCAPTCHA verified successfully.', 'recaptcha-enterprise-integration' ),'updated');
+				add_settings_error('recaptcha_enterprise_settings','challenge_test_success',esc_html__( 'reCAPTCHA verified successfully.', 'recaptcha-enterprise-integration' ),'updated');
 			} else {
-				add_settings_error('recaptcha_enterprise_settings','challenge_test_fail',__( 'reCAPTCHA verification failed.', 'recaptcha-enterprise-integration' ),'error');
+				add_settings_error('recaptcha_enterprise_settings','challenge_test_fail',esc_html__( 'reCAPTCHA verification failed.', 'recaptcha-enterprise-integration' ),'error');
 			}
 		}
 	}
